@@ -25,16 +25,22 @@ const extractParam = (req, param) => {
 const extractTopicNames = () => topics.map((topic) => topic.name);
 
 // Function to find a topic name
-const findTopicByName = (topics, topicName) => {
+const findTopicByName = (topicName) => {
   return topics.find((topic) => topic.name === topicName);
 };
 
 // Function to find topic with specified name
-const findSubTopics = (topics, topicName) => {
+const findSubTopics = (topicName) => {
   const topic = topics.find((topic) => topic.name === topicName);
 
   // If topic is found then return it´s subtopic, if not return null
   return topic ? topic.subtopics : null;
+};
+
+const findTopicsByKeyword = (querySearch) => {
+  return topics.filter((topic) =>
+    topic.name.toLowerCase().includes(querySearch.toLowerCase())
+  );
 };
 
 // ____________________ ROUTES ____________________
@@ -50,9 +56,7 @@ app.get("/topics", (req, res) => {
   // topics?topic=javascript
   const querySearch = req.query.topic;
   if (querySearch) {
-    const filterTopics = topics.filter((topic) =>
-      topic.name.toLowerCase().includes(querySearch.toLowerCase())
-    );
+    const filterTopics = findTopicsByKeyword(querySearch);
 
     if (filterTopics.length > 0) {
       res.json(filterTopics);
@@ -77,7 +81,7 @@ app.get("/topics/:name", (req, res) => {
   const topicName = extractParam(req, "name");
 
   // Passing topics and topics name as params
-  const topic = findTopicByName(topics, topicName);
+  const topic = findTopicByName(topicName);
 
   if (topic) {
     res.json(topic);
@@ -91,7 +95,7 @@ app.get("/topics/:name", (req, res) => {
 app.get("/topics/:name/subtopics", (req, res) => {
   const topicName = extractParam(req, "name");
   // Passing topics and topics name as params
-  const subtopics = findSubTopics(topics, topicName);
+  const subtopics = findSubTopics(topicName);
 
   if (subtopics) {
     res.json(subtopics);
@@ -104,7 +108,7 @@ app.get("/topics/:name/subtopics", (req, res) => {
 app.get("/topics/:name/questions", (req, res) => {
   const topicName = extractParam(req, "name");
   // Passing topics and topics name as params
-  const topic = findTopicByName(topics, topicName);
+  const topic = findTopicByName(topicName);
 
   if (topic) {
     res.json(topic);
