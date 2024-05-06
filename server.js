@@ -106,11 +106,12 @@ app.get("/topics/subtopics/:level/questions", (req, res) => {
   res.json(questions);
 });
 
+// TODO:
 // Get all topics or questions sorted by difficulty
 // Get all topics with a specific tag
 // Get all questions with a specific tag
 
-// // Start the server
-TODO: app.listen(port, () => {
+// Start the server
+app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
