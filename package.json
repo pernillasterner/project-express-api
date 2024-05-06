@@ -6,17 +6,15 @@
     "start": "babel-node server.js",
     "dev": "nodemon server.js --exec babel-node"
   },
-  "author": "Pernilla Sterner",
+  "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
-    "@babel/core": "^7.24.4",
-    "@babel/node": "^7.23.9",
-    "@babel/preset-env": "^7.24.4",
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
     "cors": "^2.8.5",
-    "express": "^4.19.2",
+    "express": "^4.17.3",
     "express-list-endpoints": "^7.1.0",
-    "nodemon": "^3.1.0"
-  },
-  "main": "server.js"
+    "nodemon": "^3.0.1"
+  }
 }

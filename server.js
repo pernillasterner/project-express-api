@@ -7,9 +7,8 @@ import { topics } from "./data/topics.json";
 // when starting the server. Example command to overwrite PORT env variable value:
 // PORT=9000 npm start
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5003;
 let app = express();
-
 
 // Add middlewares to enable cors and json body parsing
 app.use(cors());
