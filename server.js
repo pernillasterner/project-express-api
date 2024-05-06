@@ -43,6 +43,27 @@ const findTopicsByKeyword = (querySearch) => {
   );
 };
 
+const findQuestionsByLevel = (level) => {
+  // Create an array to store questions
+  let questions = [];
+  const limit = 4;
+
+  // Loop through each topic
+  topics.forEach((topic) => {
+    // Loop through each subtopic
+    topic.subtopics.forEach((subtopic) => {
+      // Filter questions based on the level
+      const filteredQuestions = subtopic.questions.filter(
+        (question) => question.level === level
+      );
+      // Add filtered questions to the array
+      questions = questions.concat(filteredQuestions);
+    });
+  });
+
+  return questions.slice(0, limit);
+};
+
 // ____________________ ROUTES ____________________
 
 // // Start defining your routes here
@@ -107,7 +128,7 @@ app.get("/topics/:name/subtopics", (req, res) => {
 // Get all questions related to a specific topic
 app.get("/topics/:name/questions", (req, res) => {
   const topicName = extractParam(req, "name");
-  // Passing topics and topics name as params
+  // Passing topic name as params to find topics by name
   const topic = findTopicByName(topicName);
 
   if (topic) {
@@ -120,14 +141,18 @@ app.get("/topics/:name/questions", (req, res) => {
 });
 
 // Get all topics or questions with a specific difficulty level
+app.get("/topics/subtopics/:level/questions", (req, res) => {
+  const level = extractParam(req, "level");
+
+  const questions = findQuestionsByLevel(level);
+  res.json(questions);
+});
 
 // Get all topics or questions sorted by difficulty
-
 // Get all topics with a specific tag
-
 // Get all questions with a specific tag
 
 // // Start the server
-app.listen(port, () => {
+TODO: app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
