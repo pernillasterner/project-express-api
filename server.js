@@ -45,17 +45,22 @@ app.route("/").get((req, res) => {
   res.send(endpoints);
 });
 
-// Route to get all topics or search for topics
+// Get all topics or search for topics using keyword
 app.get("/topics", (req, res) => {
-  // Search for topics by keyword
-  // topics?topic=basics
+  // topics?topic=javascript
   const querySearch = req.query.topic;
   if (querySearch) {
     const filterTopics = topics.filter((topic) =>
       topic.name.toLowerCase().includes(querySearch.toLowerCase())
     );
-    res.json(filterTopics);
+
+    if (filterTopics.length > 0) {
+      res.json(filterTopics);
+    } else {
+      res.status(404).json({ error: "No topics found matching the query" });
+    }
   } else {
+    // If no search is done display all topics
     res.json(topics);
   }
 });
