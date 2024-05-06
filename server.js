@@ -45,9 +45,19 @@ app.route("/").get((req, res) => {
   res.send(endpoints);
 });
 
-// Route to get all topics
+// Route to get all topics or search for topics
 app.get("/topics", (req, res) => {
-  res.json(topics);
+  // Search for topics by keyword
+  // topics?topic=basics
+  const querySearch = req.query.topic;
+  if (querySearch) {
+    const filterTopics = topics.filter((topic) =>
+      topic.name.toLowerCase().includes(querySearch.toLowerCase())
+    );
+    res.json(filterTopics);
+  } else {
+    res.json(topics);
+  }
 });
 
 // Get all topic names
@@ -91,10 +101,14 @@ app.get("/topics/:name/questions", (req, res) => {
   // Passing topics and topics name as params
   const topic = findTopicByName(topics, topicName);
 
-  res.json(topic);
+  if (topic) {
+    res.json(topic);
+  } else {
+    res
+      .status(404)
+      .json({ error: "No questions related to a specific topic was found" });
+  }
 });
-
-// Search for topics or questions by keyword
 
 // Get all topics or questions with a specific difficulty level
 
